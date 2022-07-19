@@ -18,6 +18,7 @@ loom {
     forge {
         mixinConfig "linuxintegration.mixins.json"
     }
+//    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 }
 
 dependencies {

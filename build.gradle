@@ -12,6 +12,7 @@ subprojects {
 
     loom {
         silentMojangMappingsLicense()
+        accessWidenerPath = file("../fabric/src/main/resources/linuxintegration.accesswidener")
     }
 
     dependencies {
