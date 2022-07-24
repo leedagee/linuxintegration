@@ -1,0 +1,17 @@
+- [ ] authlib-injector mod implementation
+  - [ ] Hot Reload 
+  - [ ] DBus Secrets API
+    - [ ] ClientToken and refresh
+    - [ ] encrypted accessToken transport
+  - [ ] Launcher Provided
+  - [ ] GUI
+- [ ] ingame Fcitx5
+  - [ ] Disable XIM 
+  - [ ] DBus
+  - [ ] Client side UI
+    - [ ] Textfield
+    - [ ] Chat
+    - [ ] Search (jech)
+- [ ] Port
+  - [ ] forge 1.12 (?)
+    - [ ] GLFW Bypass compositor

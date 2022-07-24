@@ -21,6 +21,11 @@ dependencies {
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
 
+    implementation 'com.github.hypfvieh:dbus-java-core:4.1.0'
+    implementation 'com.github.hypfvieh:dbus-java-transport-native-unixsocket:4.1.0'
+    shadowCommon 'com.github.hypfvieh:dbus-java-core:4.1.0'
+    shadowCommon 'com.github.hypfvieh:dbus-java-transport-native-unixsocket:4.1.0'
+
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }
@@ -34,6 +39,9 @@ processResources {
 }
 
 shadowJar {
+    dependencies {
+        exclude(dependency("org.slf4j:slf4j-api:1.7.36"))
+    }
     configurations = [project.configurations.shadowCommon]
     classifier "dev-shadow"
 }

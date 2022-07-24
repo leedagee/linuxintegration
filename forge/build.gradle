@@ -17,6 +17,7 @@ configurations {
 loom {
     forge {
         mixinConfig "linuxintegration.mixins.json"
+        mixinConfig "linuxintegration-common.mixins.json"
     }
 //    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 }
@@ -28,6 +29,11 @@ dependencies {
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+
+    forgeRuntimeLibrary(implementation('com.github.hypfvieh:dbus-java-core:4.1.0'))
+    forgeRuntimeLibrary(implementation('com.github.hypfvieh:dbus-java-transport-native-unixsocket:4.1.0'))
+    shadowCommon 'com.github.hypfvieh:dbus-java-core:4.1.0'
+    shadowCommon 'com.github.hypfvieh:dbus-java-transport-native-unixsocket:4.1.0'
 }
 
 processResources {
@@ -39,6 +45,9 @@ processResources {
 }
 
 shadowJar {
+    dependencies {
+        exclude(dependency("org.slf4j:slf4j-api:1.7.36"))
+    }
     exclude "fabric.mod.json"
 
     configurations = [project.configurations.shadowCommon]

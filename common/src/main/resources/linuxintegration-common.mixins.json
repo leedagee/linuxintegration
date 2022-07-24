@@ -6,7 +6,8 @@
   "mixins": [
   ],
   "client": [
-    "MixinMinecraftClient_CredentialReload"
+    "MixinMinecraftClient_CredentialReload",
+    "MixinMultiplayerScreen_addButton"
   ],
   "injectors": {
     "defaultRequire": 1

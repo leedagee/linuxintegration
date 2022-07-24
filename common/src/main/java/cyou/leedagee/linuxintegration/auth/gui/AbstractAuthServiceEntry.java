@@ -1,41 +1,43 @@
 package cyou.leedagee.linuxintegration.auth.gui;
 
-import com.mojang.authlib.yggdrasil.YggdrasilEnvironment;
 import cyou.leedagee.linuxintegration.auth.CredentialContext;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
-import net.minecraft.client.util.Session;
-import org.freedesktop.dbus.DBusPath;
-
-import java.util.Optional;
+import net.minecraft.client.util.math.MatrixStack;
 
 public abstract class AbstractAuthServiceEntry extends AlwaysSelectedEntryListWidget.Entry<AbstractAuthServiceEntry> {
-    private final String entryName;
-    private final String playerUUID;
-    private final String username;
-    private boolean ready;
-    private String accessToken;
+    private final String name;
+    private final AuthServiceList parent;
 
-    public AbstractAuthServiceEntry(String entryName, String playerUUID, String username, DBusPath objectPath) {
-        this.entryName = entryName;
-        this.playerUUID = playerUUID;
-        this.username = username;
-        this.ready = true;
+    protected AbstractAuthServiceEntry(AuthServiceList parent, String name) {
+        this.parent = parent;
+        this.name = name;
     }
 
-    public Optional<CredentialContext> toCredentialContext() {
-        return this.ready ? Optional.of(
-                new CredentialContext(
-                        YggdrasilEnvironment.PROD.getEnvironment(),
-                        new Session(username, playerUUID, accessToken, Optional.empty(), Optional.empty(), Session.AccountType.MOJANG)
-                )
-        ) : Optional.empty();
+    public abstract boolean isReady();
+
+    public abstract CredentialContext toCredentialContext(boolean finished);
+
+    public abstract String getServiceFriendlyName();
+
+    @Override
+    public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+        CredentialContext context = this.toCredentialContext(false);
+        textRenderer.draw(matrices, this.getName(), x + 10, y + 10, 0xFFFFFF);
+        int xx = textRenderer.draw(matrices, context.session.getUsername(), x + 10, y + 30, 0xAAAAAA);
+        xx = textRenderer.draw(matrices, "@", xx, y + 30, 0x444444);
+        xx = textRenderer.draw(matrices, this.getServiceFriendlyName(), xx, y + 30, 0x999999);
     }
 
     public String getName() {
-        return this.entryName;
+        return name;
     }
 
-    public void setAccessToken(String token) {
-        this.accessToken = token;
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        this.parent.setSelected(this);
+        return false;
     }
 }
