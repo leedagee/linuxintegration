@@ -1,10 +1,10 @@
 - [ ] authlib-injector mod implementation
-  - [ ] Hot Reload 
-  - [ ] DBus Secrets API
+  - [+] Hot Reload 
+  - [+] DBus Secrets API
     - [ ] ClientToken and refresh
     - [ ] encrypted accessToken transport
-  - [ ] Launcher Provided
-  - [ ] GUI
+  - [+] Launcher Provided
+  - [+] GUI
 - [ ] ingame Fcitx5
   - [ ] Disable XIM 
   - [ ] DBus
